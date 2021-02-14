@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="slideshowmovies"></div>
+  <app-header></app-header>
+  <div class="row text-center" style="display:flex;flex-wrap:wrap;" *ngIf="isLoaderActive">
+    <div class="loading">Loading&#8230;</div>
+  </div>
+  <div class="row text-center" style="display:flex;flex-wrap:wrap;" *ngIf="!isLoaderActive">
+      <div class="col-md-3 col-sm-6" *ngFor="let movie of movies.results">
+        <div class="thumbnail">
+            <a [routerLink]="['/nowplaying/show-movie', movie.title]">
+            <img class="lozad" [src]="'https://image.tmdb.org/t/p/w370_and_h556_bestv2'+movie.poster_path">
+          </a>
+            <div class="caption">
+              <h4>{{movie.title}}</h4>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>

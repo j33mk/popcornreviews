@@ -1,0 +1,3 @@
+remove white spaces
+
+1. select all from regex using ^(\s)*$\n and then hit replace all
