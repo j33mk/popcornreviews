@@ -1,0 +1,27 @@
+<ng-container
+  *ngIf="checkType(data); then loggedIn; else loggedOut">
+</ng-container>
+
+<ng-template #loggedIn>
+  <div>
+    <p>
+        Welcome back, friend {{data.firstName}}.
+    </p>
+    <p>
+        Your email address is {{data.email}}
+    </p>
+    <ng-container *ngIf = "data.isAdmin; then showAdminBlock else showNormalUserBlock">
+    </ng-container>
+    <ng-template #showAdminBlock>
+        <p>Sir {{data.firstName+' '+data.lastName}} You are admin :)</p>
+    </ng-template>
+    <ng-template #showNormalUserBlock>
+        <p>Sir {{data.firstName+' '+data.lastName}} You are Normal user :)</p>
+    </ng-template>
+  </div>
+</ng-template>
+<ng-template #loggedOut>
+  <div>
+    {{data}}
+  </div>
+</ng-template>

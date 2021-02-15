@@ -25,7 +25,7 @@ export class ShowmovieComponent implements OnInit {
       console.log(movieName);
       this.getMovieDetails(movieName).then(data => {
         this.responseDto = data;
-        console.log("....");
+        //console.log("....");
         this.isLoaderActive = false;
       }).catch(error => {
         console.log(error.message);

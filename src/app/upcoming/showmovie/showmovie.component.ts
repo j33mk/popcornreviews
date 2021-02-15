@@ -25,13 +25,15 @@ export class ShowmovieComponent implements OnInit {
       console.log(movieName);
       this.getMovieDetails(movieName).then(data => {
         this.responseDto = data;
-        console.log("....");
+        console.log("...."); 
         this.isLoaderActive = false;
       }).catch(error => {
         console.log(error.message);
       });
     });
   }
+   
+    
   async getMovieDetails(movieName): Promise<any> {
     try {
       const finalUrl: string = this.movieInfoByTitle.concat(this.apiKey).concat('&query=').concat(movieName);

@@ -11,26 +11,26 @@ import {Movie} from '../../Models/Movie'
 })
 
 export class ListmoviesComponent implements OnInit {
-   movies:any;
-   isLoaderActive:boolean = true;
-   apiKey:string = '0eb48fbecf1e41443e5deadaea7521f7';
-   nowplayingUrl:string = 'https://api.themoviedb.org/3/movie/top_rated?api_key=';
-   finalUrl:string = this.nowplayingUrl.concat(this.apiKey);
+  movies:any;
+  isLoaderActive:boolean = true;
+  apiKey:string = '0eb48fbecf1e41443e5deadaea7521f7';
+  toprated:string = 'https://api.themoviedb.org/3/movie/top_rated?api_key=';
+  finalUrl:string = this.toprated.concat(this.apiKey);
 
-  constructor(private http:HttpClient) { }
+ constructor(private http:HttpClient) { }
 
-  ngOnInit(): void {
-    this.loadMovies();
-    
+ ngOnInit(): void {
+   this.loadMovies(this.finalUrl).then(()=>{
+     console.log("Movies are loaded....");
+   }).catch(err=>{
+     console.log("Refer to console for erros....");
+     console.log(err.message);
+   });
+ }
 
-  }
-
-  loadMovies(){
-    this.http.get(this.finalUrl).subscribe(data=>{
-      this.movies = data;
-      this.isLoaderActive = false;
-
-    });
-  }
+ async loadMovies(finalUrl):Promise<any>{
+   this.movies = await this.http.get(finalUrl).toPromise();
+   this.isLoaderActive = false;
+ }
 
 }

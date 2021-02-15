@@ -20,17 +20,17 @@ export class ListmoviesComponent implements OnInit {
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-    this.loadMovies();
-    
-
+    this.loadMovies(this.finalUrl).then(()=>{
+      console.log("Movies are loaded....");
+    }).catch(err=>{
+      console.log("Refer to console for erros....");
+      console.log(err.message);
+    });
   }
 
-  loadMovies(){
-    this.http.get(this.finalUrl).subscribe(data=>{
-      this.movies = data;
-      this.isLoaderActive = false;
-
-    });
+  async loadMovies(finalUrl):Promise<any>{
+    this.movies = await this.http.get(finalUrl).toPromise();
+    this.isLoaderActive = false;
   }
 
 }

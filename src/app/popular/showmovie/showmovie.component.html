@@ -1,123 +1,212 @@
-<div class="row text-center" style="display:flex;flex-wrap:wrap;" *ngIf="isLoaderActive">
-  <div class="loading">Loading&#8230;</div>
-</div>
-<div class="container" *ngIf="responseDto">
+<ng-container *ngIf="responseDto; then showBlock else errorBlock">
 
-  <div>
-    <img id="postertest" class="poster" [src]="'https://image.tmdb.org/t/p/original'+responseDto.Movie.backdrop_path">
-  </div>
-  <!-- Card Container -->
-  <div class="col-xs-12 cardcont nopadding">
-    <!-- Meta Container -->
-    <div class="meta-data-container col-xs-12 col-md-8 push-md-4 col-lg-7 push-lg-5">
-      <h1>{{responseDto.Movie.original_title}}</h1>
-      <span class="tagline">
-        <h2>{{responseDto.Movie.tagline}}</h2>
-        {{responseDto.Movie.genres[0].name}} .
-        <!-- <span *ngIf="responseDto.Movie.genres[1]; then ifBlock else elseBlock"> -->
-          <ng-template [ngIf]="responseDto.Movie.genres[1]">
-              <span>{{responseDto.Movie.genres[1].name}}</span>
-          </ng-template>
-          <ng-template [ngIf]="!responseDto.Movie.genres[1]">
-                <span>NA</span>
-          </ng-template>
-        <!-- </span> | --> |
-        <!-- <span *ngIf="responseDto.Movie.spoken_languages[0]; then ifBlock else elseBlock"> -->
-          <ng-template [ngIf]="responseDto.Movie.spoken_languages[0]">
-            <span>              {{responseDto.Movie.spoken_languages[0].name}}
-            </span>
-          </ng-template>
-          <ng-template [ngIf]="!responseDto.Movie.spoken_languages[0]">
-                <span>English</span>
-          </ng-template>
-        </span> |
-        <span>              {{responseDto.Movie.runtime}}
-        </span> |
-        <span>              {{responseDto.Movie.release_date}}
-        </span>
-      <!-- </span> -->
-      <h4>
-        SYNOPSIS
-      </h4>
-      <p style='margin-top:6.5vh;'>
-        {{responseDto.Movie.overview}}
-      </p>
-      <!-- additional-details -->
-      <div class="additional-details">
-        <span class="genre-list"></span>
-        <span class="production-list"></span>
-        <div class="nopadding release-details">
-          <div class="col-xs-6">
-            Directed by:
-            <span class="meta-data">{{getDirectorName(responseDto.Credit)}}</span>
-          </div>
-          <div class="col-xs-6">
-            Produced by:
-            <span class="meta-data">{{getProducerName(responseDto.Credit)}}</span>
-          </div>
-          <div class="col-xs-6">
-            Box Office:
-            <span class="meta-data">{{responseDto.Movie.revenue}}
-            </span>
-          </div>
-          <div class="col-xs-6">
-            Vote Average:
-            <span class="meta-data">{{responseDto.Movie.vote_average / 10}}</span>
-          </div>
-          <div class="col-xs-6">
-            <button type="button" class="btn btn-red btn-lg" data-toggle="modal" data-target="#myModal">Watch
-              Trailer</button>
-            <!-- Modal -->
-            <div id="myModal" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                  </div>
-                  <div class="modal-body">
-                    <div class="video-container">
-                      <div>
-                        <!-- <iframe width="640" height="360" class="youtube"
-                          [src]="getTrailerLink(responseDto.Video)" allowfullscreen="">
-                        </iframe> -->
+</ng-container>
+<ng-template #showBlock>
+  <div class="container">
+  
+    <div>
+      <img id="postertest" class="poster" [src]="'https://image.tmdb.org/t/p/original'+responseDto.Movie.backdrop_path">
+    </div>
+    <!-- Card Container -->
+    <div class="col-xs-12 cardcont nopadding">
+      <!-- Meta Container -->
+      <div class="meta-data-container col-xs-12 col-md-8 push-md-4 col-lg-7 push-lg-5">
+        <h1>{{responseDto.Movie.original_title}}</h1>
+        <span class="tagline">
+          <h2>{{responseDto.Movie.tagline}}</h2>
+          {{responseDto.Movie.genres[0].name}} .
+          <!-- <span *ngIf="responseDto.Movie.genres[1]; then ifBlock else elseBlock"> -->
+            <ng-template [ngIf]="responseDto.Movie.genres[1]">
+                <span>{{responseDto.Movie.genres[1].name}}</span>
+            </ng-template>
+            <ng-template [ngIf]="!responseDto.Movie.genres[1]">
+                  <span>NA</span>
+            </ng-template>
+          <!-- </span> | --> |
+          <!-- <span *ngIf="responseDto.Movie.spoken_languages[0]; then ifBlock else elseBlock"> -->
+            <ng-template [ngIf]="responseDto.Movie.spoken_languages[0]">
+              <span>              {{responseDto.Movie.spoken_languages[0].name}}
+              </span>
+            </ng-template>
+            <ng-template [ngIf]="!responseDto.Movie.spoken_languages[0]">
+                  <span>English</span>
+            </ng-template>
+          </span> |
+          <span>              {{responseDto.Movie.runtime}}
+          </span> |
+          <span>              {{responseDto.Movie.release_date}}
+          </span>
+        <!-- </span> -->
+        <h4>
+          SYNOPSIS
+        </h4>
+        <p style='margin-top:6.5vh;'>
+          {{responseDto.Movie.overview}}
+        </p>
+        <!-- additional-details -->
+        <div class="additional-details">
+          <span class="genre-list"></span>
+          <span class="production-list"></span>
+          <div class="nopadding release-details">
+            <div class="col-xs-6">
+              Directed by:
+              <span class="meta-data">{{getDirectorName(responseDto.Credit)}}</span>
+            </div>
+            <div class="col-xs-6">
+              Produced by:
+              <span class="meta-data">{{getProducerName(responseDto.Credit)}}</span>
+            </div>
+            <div class="col-xs-6">
+              Box Office:
+              <span class="meta-data">{{responseDto.Movie.revenue}}
+              </span>
+            </div>
+            <div class="col-xs-6">
+              Vote Average:
+              <span class="meta-data">{{responseDto.Movie.vote_average / 10}}</span>
+            </div>
+            <div class="col-xs-6">
+              <button type="button" class="btn btn-red btn-lg" data-toggle="modal" data-target="#myModal">Watch
+                Trailer</button>
+              <!-- Modal -->
+              <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="video-container">
+                        <div>
+                          <!-- <iframe width="640" height="360" class="youtube"
+                            [src]="getTrailerLink(responseDto.Video)" allowfullscreen="">
+                          </iframe> -->
+                        </div>
                       </div>
                     </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
+                  <!-- Modal Content -->
                 </div>
-                <!-- Modal Content -->
+              </div>
+              <!-- Modal -->
+            </div>
+            <div class="col-xs-6">
+              <a href="/popular" class="btn-lg btn-green">View More</a>
+            </div>
+          </div>
+        </div>
+        <!-- additional-details -->
+      </div>
+      <!-- Meta Container -->
+      <div class="poster-container nopadding col-xs-12 col-md-4 pull-md-8 col-lg-5 pull-lg-7 ">
+        <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' +responseDto.Movie.poster_path">
+      </div>
+    </div>
+    <!-- Card Container -->
+    <!-- Cast Description -->
+    <div class="col-xs-12 cardcont nopadding">
+      <div class="wrapper">
+        <h3>STARRING</h3>
+        <div style="margin-top:50px;" class="row row-flex">
+          <div class="col-md-3" *ngFor="let cast of responseDto.Credit.cast">
+            <div class="responsive-circle">
+              <div>
+                <img [src]="getCastProfilePicture(cast.profile_path)" class="image--cover">
+                <figcaption>
+                  {{cast.name}}
+                </figcaption>
               </div>
             </div>
-            <!-- Modal -->
-          </div>
-          <div class="col-xs-6">
-            <a href="/nowplaying" class="btn-lg btn-green">View More</a>
           </div>
         </div>
       </div>
-      <!-- additional-details -->
     </div>
-    <!-- Meta Container -->
-    <div class="poster-container nopadding col-xs-12 col-md-4 pull-md-8 col-lg-5 pull-lg-7 ">
-      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' +responseDto.Movie.poster_path">
-    </div>
-  </div>
-  <!-- Card Container -->
-  <!-- Cast Description -->
-  <div class="col-xs-12 cardcont nopadding">
-    <div class="wrapper">
-      <h3>STARRING</h3>
-      <div style="margin-top:50px;" class="row row-flex">
-        <div class="col-md-3" *ngFor="let cast of responseDto.Credit.cast">
-          <div class="responsive-circle">
-            <div>
-              <img [src]="getCastProfilePicture(cast.profile_path)" class="image--cover">
+    <!-- Recommendations -->
+    <div class="col-xs-12 cardcont nopadding">
+      <div class="wrapper">
+        <h3>People who liked this also liked...</h3>
+        <div class="container">
+          <div class="row row-flex fivecolumns">
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/xZNw9xxtwbEf25NYoz52KdbXHPM.jpg"
+                id="movie-summary-img"><br>
               <figcaption>
-                {{cast.name}}
+                The New Mutants
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/hm58Jw4Lw8OIeECIq5qyPYhAeRJ.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Soul
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/k68nPLbIST6NP96JmTxmZijEvCA.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Tenet
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/4V2nTPfeB59TcqJcUfQ9ziTi7VN.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Bill &amp; Ted Face the Music
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/cjr4NWURcVN3gW5FlHeabgBHLrY.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                The Old Guard
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/5EufsDwXdY2CVttYOk2WtYhgKpa.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                The Invisible Man
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/TnOeov4w0sTtV2gqICqIxVi74V.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Project Power
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/r4Lm1XKP0VsTgHX4LG4syAwYA2I.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Love and Monsters
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/aKx1ARwG55zZ0GpRvU2WrGrCG9o.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Mulan
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/73QoFJFmUrJfDG2EynFjNc5gJxk.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Promising Young Woman
+              </figcaption>
+            </div>
+            <div class="span2">
+              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg"
+                id="movie-summary-img"><br>
+              <figcaption>
+                Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)
               </figcaption>
             </div>
           </div>
@@ -125,91 +214,7 @@
       </div>
     </div>
   </div>
-  <!-- Recommendations -->
-  <div class="col-xs-12 cardcont nopadding">
-    <div class="wrapper">
-      <h3>People who liked this also liked...</h3>
-      <div class="container">
-        <div class="row row-flex fivecolumns">
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/xZNw9xxtwbEf25NYoz52KdbXHPM.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              The New Mutants
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/hm58Jw4Lw8OIeECIq5qyPYhAeRJ.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Soul
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/k68nPLbIST6NP96JmTxmZijEvCA.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Tenet
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/4V2nTPfeB59TcqJcUfQ9ziTi7VN.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Bill &amp; Ted Face the Music
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/cjr4NWURcVN3gW5FlHeabgBHLrY.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              The Old Guard
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/5EufsDwXdY2CVttYOk2WtYhgKpa.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              The Invisible Man
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/TnOeov4w0sTtV2gqICqIxVi74V.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Project Power
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/r4Lm1XKP0VsTgHX4LG4syAwYA2I.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Love and Monsters
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/aKx1ARwG55zZ0GpRvU2WrGrCG9o.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Mulan
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/73QoFJFmUrJfDG2EynFjNc5gJxk.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Promising Young Woman
-            </figcaption>
-          </div>
-          <div class="span2">
-            <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg"
-              id="movie-summary-img"><br>
-            <figcaption>
-              Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)
-            </figcaption>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+</ng-template>
+<ng-template #errorBlock>
+  <div class="loading">Loading&#8230;</div>
+</ng-template>

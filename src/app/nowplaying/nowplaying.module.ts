@@ -6,15 +6,17 @@ import {SharedModule} from '../shared/shared.module';
 import { NowplayingRoutingModule } from './nowplaying-routing.module';
 import { ListmoviesComponent } from './listmovies/listmovies.component';
 import { ShowmovieComponent } from './showmovie/showmovie.component';
+import { TestingComponent } from './testing/testing.component';
 
 
 @NgModule({
-  declarations: [ListmoviesComponent, ShowmovieComponent],
+  declarations: [ListmoviesComponent, ShowmovieComponent, TestingComponent],
   imports: [
-    CommonModule,
+    
     NowplayingRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ]
 })
 export class NowplayingModule { }
