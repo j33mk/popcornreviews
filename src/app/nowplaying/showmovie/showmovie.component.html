@@ -58,7 +58,7 @@
             </div>
             <div class="col-xs-6">
               Box Office:
-              <span class="meta-data">{{responseDto.Movie.revenue}}
+              <span class="meta-data">{{responseDto.Movie.revenue}} $
               </span>
             </div>
             <div class="col-xs-6">
@@ -80,9 +80,9 @@
                     <div class="modal-body">
                       <div class="video-container">
                         <div>
-                          <!-- <iframe width="640" height="360" class="youtube"
+                          <iframe width="640" height="360" class="youtube"
                             [src]="getTrailerLink(responseDto.Video)" allowfullscreen="">
-                          </iframe> -->
+                          </iframe>
                         </div>
                       </div>
                     </div>
@@ -113,6 +113,9 @@
       <div class="wrapper">
         <h3>STARRING</h3>
         <div style="margin-top:50px;" class="row row-flex">
+          <div>
+            
+          </div>
           <div class="col-md-3" *ngFor="let cast of responseDto.Credit.cast">
             <div class="responsive-circle">
               <div>
@@ -132,81 +135,11 @@
         <h3>People who liked this also liked...</h3>
         <div class="container">
           <div class="row row-flex fivecolumns">
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/xZNw9xxtwbEf25NYoz52KdbXHPM.jpg"
+            <div class="span2" *ngFor="let recommended of responseDto.Recommend.results">
+              <img class="img-responsive" [src]="getRecommendedPicture(recommended)"
                 id="movie-summary-img"><br>
               <figcaption>
-                The New Mutants
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/hm58Jw4Lw8OIeECIq5qyPYhAeRJ.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Soul
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/k68nPLbIST6NP96JmTxmZijEvCA.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Tenet
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/4V2nTPfeB59TcqJcUfQ9ziTi7VN.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Bill &amp; Ted Face the Music
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/cjr4NWURcVN3gW5FlHeabgBHLrY.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                The Old Guard
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/5EufsDwXdY2CVttYOk2WtYhgKpa.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                The Invisible Man
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/TnOeov4w0sTtV2gqICqIxVi74V.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Project Power
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/r4Lm1XKP0VsTgHX4LG4syAwYA2I.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Love and Monsters
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/aKx1ARwG55zZ0GpRvU2WrGrCG9o.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Mulan
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/73QoFJFmUrJfDG2EynFjNc5gJxk.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Promising Young Woman
-              </figcaption>
-            </div>
-            <div class="span2">
-              <img class="img-responsive" src="https://image.tmdb.org/t/p/w500/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg"
-                id="movie-summary-img"><br>
-              <figcaption>
-                Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)
+                {{recommended.title}}
               </figcaption>
             </div>
           </div>
@@ -214,7 +147,9 @@
       </div>
     </div>
   </div>
+  <app-footer></app-footer>
 </ng-template>
 <ng-template #errorBlock>
   <div class="loading">Loading&#8230;</div>
 </ng-template>
+

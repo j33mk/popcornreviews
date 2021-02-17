@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { ResponseDto } from '../../Models/ResponseDto'
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-showmovie',
@@ -17,7 +19,7 @@ export class ShowmovieComponent implements OnInit {
   private youtube: string = 'http://api.themoviedb.org/3/movie/';
   private recommend: string = 'https://api.themoviedb.org/3/movie/';
   isLoaderActive:boolean = true;
-  constructor(private _Activatedroute: ActivatedRoute, private http: HttpClient) { }
+  constructor(private _Activatedroute: ActivatedRoute, private http: HttpClient,private sanitizer:DomSanitizer) { }
 
   ngOnInit(): void {
     this._Activatedroute.paramMap.subscribe(params => {
@@ -25,15 +27,13 @@ export class ShowmovieComponent implements OnInit {
       console.log(movieName);
       this.getMovieDetails(movieName).then(data => {
         this.responseDto = data;
-        console.log("...."); 
+        //console.log("....");
         this.isLoaderActive = false;
       }).catch(error => {
         console.log(error.message);
       });
     });
   }
-   
-    
   async getMovieDetails(movieName): Promise<any> {
     try {
       const finalUrl: string = this.movieInfoByTitle.concat(this.apiKey).concat('&query=').concat(movieName);
@@ -74,15 +74,27 @@ export class ShowmovieComponent implements OnInit {
   }
   getTrailerLink(video:any){
     if(video.results[0]){
-      return "https://www.youtube.com/embed/"+video.results[0].key;
+      const trailerLink= "https://www.youtube.com/embed/"+video.results[0].key;
+      console.log(trailerLink);
+      return this.sanitizer.bypassSecurityTrustResourceUrl(trailerLink);
     }else{
-      return "https://www.youtube.com"
+      console.log("https://www.youtube.com");
+      return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com");
     }
   }
   getCastProfilePicture(profilePath:any){
     if(profilePath){
       return "https://image.tmdb.org/t/p/w500"+profilePath;
+    }else{
+      return "https://cdn.dribbble.com/users/1061799/screenshots/4400959/404-not-found.png";
     }
 
+  }
+  getRecommendedPicture(recommended:any){
+    if(recommended.poster_path){
+      return "https://image.tmdb.org/t/p/w500"+recommended.poster_path; 
+    }else{
+      return "https://cdn.dribbble.com/users/1061799/screenshots/4400959/404-not-found.png";
+    }
   }
 }
