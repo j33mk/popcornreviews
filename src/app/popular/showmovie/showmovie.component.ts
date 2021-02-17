@@ -16,7 +16,7 @@ export class ShowmovieComponent implements OnInit {
   private apiKey: string = '0eb48fbecf1e41443e5deadaea7521f7';
   private movieInfoByTitle: string = 'https://api.themoviedb.org/3/search/movie?api_key=';
   private singleMovieInfo: string = 'https://api.themoviedb.org/3/movie/';
-  private youtube: string = 'http://api.themoviedb.org/3/movie/';
+  private youtube: string = 'https://api.themoviedb.org/3/movie/';
   private recommend: string = 'https://api.themoviedb.org/3/movie/';
   isLoaderActive:boolean = true;
   constructor(private _Activatedroute: ActivatedRoute, private http: HttpClient,private sanitizer:DomSanitizer) { }
