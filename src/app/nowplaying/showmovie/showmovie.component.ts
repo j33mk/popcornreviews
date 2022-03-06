@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs";
-import { ResponseDto } from '../../Models/ResponseDto'
-import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {ResponseDto} from '../../Models/ResponseDto';
+import {DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 
 @Component({
@@ -18,8 +18,10 @@ export class ShowmovieComponent implements OnInit {
   private singleMovieInfo: string = 'https://api.themoviedb.org/3/movie/';
   private youtube: string = 'https://api.themoviedb.org/3/movie/';
   private recommend: string = 'https://api.themoviedb.org/3/movie/';
-  isLoaderActive:boolean = true;
-  constructor(private _Activatedroute: ActivatedRoute, private http: HttpClient,private sanitizer:DomSanitizer) { }
+  isLoaderActive: boolean = true;
+
+  constructor(private _Activatedroute: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer) {
+  }
 
   ngOnInit(): void {
     this._Activatedroute.paramMap.subscribe(params => {
@@ -34,16 +36,17 @@ export class ShowmovieComponent implements OnInit {
       });
     });
   }
+
   async getMovieDetails(movieName): Promise<any> {
     try {
       const finalUrl: string = this.movieInfoByTitle.concat(this.apiKey).concat('&query=').concat(movieName);
       const data: any = await this.http.get(finalUrl).toPromise();
-      const results: any = data["results"];
+      const results: any = data['results'];
       const movieId = results[0].id;
-      const singMovInfo = this.singleMovieInfo.concat(movieId).concat("?api_key=").concat(this.apiKey);
-      const singMoviCredits = this.singleMovieInfo.concat(movieId).concat("/credits?api_key=").concat(this.apiKey);
-      const youTube = this.youtube.concat(movieId).concat("/videos?api_key=").concat(this.apiKey).concat("&language=en-US");
-      const recommendations = this.recommend.concat(movieId).concat("/recommendations?api_key=").concat(this.apiKey).concat("&language=en-US&page=1");
+      const singMovInfo = this.singleMovieInfo.concat(movieId).concat('?api_key=').concat(this.apiKey);
+      const singMoviCredits = this.singleMovieInfo.concat(movieId).concat('/credits?api_key=').concat(this.apiKey);
+      const youTube = this.youtube.concat(movieId).concat('/videos?api_key=').concat(this.apiKey).concat('&language=en-US');
+      const recommendations = this.recommend.concat(movieId).concat('/recommendations?api_key=').concat(this.apiKey).concat('&language=en-US&page=1');
       const singleMovieInfoRequest: any = await this.http.get(singMovInfo).toPromise();
       const singMoviCreditsRequest: any = await this.http.get(singMoviCredits).toPromise();
       const youTubeRequest: any = await this.http.get(youTube).toPromise();
@@ -53,48 +56,53 @@ export class ShowmovieComponent implements OnInit {
         Video: youTubeRequest,
         Credit: singMoviCreditsRequest,
         Recommend: recommendationsRequest
-      }
+      };
       return responseDto;
     } catch (error) {
       return error.message;
     }
   }
-  getDirectorName(credit:any):string{
-    const directorName:string = credit.crew.find(d=>d.job==='Director').name;
+
+  getDirectorName(credit: any): string {
+    const directorName: string = credit.crew.find(d => d.job === 'Director').name;
     return directorName;
 
   }
-  getProducerName(credit:any):string{
-    const producerName:string = credit.crew.find(p=>p.job ==='Producer').name;
-    if(producerName){
+
+  getProducerName(credit: any): string {
+    const producerName: string = credit.crew.find(p => p.job === 'Producer').name;
+    if (producerName) {
       return producerName;
-    }else{
-      return "NA";
+    } else {
+      return 'NA';
     }
   }
-  getTrailerLink(video:any){
-    if(video.results[0]){
-      const trailerLink= "https://www.youtube.com/embed/"+video.results[0].key;
+
+  getTrailerLink(video: any) {
+    if (video.results[0]) {
+      const trailerLink = 'https://www.youtube.com/embed/' + video.results[0].key;
       console.log(trailerLink);
       return this.sanitizer.bypassSecurityTrustResourceUrl(trailerLink);
-    }else{
-      console.log("https://www.youtube.com");
-      return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com");
+    } else {
+      console.log('https://www.youtube.com');
+      return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com');
     }
   }
-  getCastProfilePicture(profilePath:any){
-    if(profilePath){
-      return "https://image.tmdb.org/t/p/w500"+profilePath;
-    }else{
-      return "https://cdn.dribbble.com/users/1061799/screenshots/4400959/404-not-found.png";
+
+  getCastProfilePicture(profilePath: any) {
+    if (profilePath) {
+      return 'https://image.tmdb.org/t/p/w500' + profilePath;
+    } else {
+      return 'https://cdn.dribbble.com/users/1061799/screenshots/4400959/404-not-found.png';
     }
 
   }
-  getRecommendedPicture(recommended:any){
-    if(recommended.poster_path){
-      return "https://image.tmdb.org/t/p/w500"+recommended.poster_path; 
-    }else{
-      return "https://cdn.dribbble.com/users/1061799/screenshots/4400959/404-not-found.png";
+
+  getRecommendedPicture(recommended: any) {
+    if (recommended.poster_path) {
+      return 'https://image.tmdb.org/t/p/w500' + recommended.poster_path;
+    } else {
+      return 'https://cdn.dribbble.com/users/1061799/screenshots/4400959/404-not-found.png';
     }
   }
 }
